@@ -47,6 +47,16 @@ namespace AsyncLab
             // Run Echo("1"), Echo("2") then Echo("3") then Echo("4"), Echo("5") then print the results
         }
         
+        [Run]
+        public async Task Mixed2()
+        {
+            // Run [Echo("1") then Echo(echo1 + "+2")]
+            //     [Echo("3") then Echo(echo3 + "+4")]
+            //     then Echo(1+2+3+4+"5")
+            //
+            // If you keep concatenating the string you should see "1+2+3+4+5"
+        }
+        
         /**/
     }
 }

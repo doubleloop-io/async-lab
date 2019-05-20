@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AsyncLab.Support;
 
@@ -65,6 +63,36 @@ namespace AsyncLab.Answers
             var fourAndFive = await Task.WhenAll(fourTask, fiveTask);
             
             output.Log(F.A(oneAndTwo, F.A(three), fourAndFive));
+        }
+        
+        [Run]
+        public async Task Mixed2()
+        {
+            // Run [Echo("1") then Echo(echo1 + "+2")]
+            //     [Echo("3") then Echo(echo3 + "+4")]
+            //     then Echo(1+2+3+4+"5")
+            //
+            // If you keep concatenating the string you should see "1+2+3+4+5"
+
+            async Task<string> Compute1()
+            {
+                var echo1 = await EchoAsync("1");
+                var echo2 = await EchoAsync(echo1 + "+2");
+                return echo2;
+            }
+            
+            async Task<string> Compute2()
+            {
+                var echo3 = await EchoAsync("3");
+                var echo4 = await EchoAsync(echo3 + "+4");
+                return echo4;
+            }
+            
+            var oneAndTwo = await Task.WhenAll(Compute1(), Compute2());
+
+            var five = await EchoAsync(string.Join("+", oneAndTwo) + "+5");
+            
+            output.Log(five);
         }
     }
 }
