@@ -15,7 +15,7 @@ namespace AsyncLab
             T.RegisterUnobserved(output);
 
             var all = RunnableMethod.FindAll();
-            await new Runnables(output, all).Run();
+            await new Runnables(output, all).Run(args);
         }
     }
 }

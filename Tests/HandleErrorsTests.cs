@@ -9,14 +9,10 @@ namespace AsyncLab.Tests
     public class HandleErrorsTests
     {
         readonly OutputSpy output = new OutputSpy();
-        readonly Func<Task<string>> faulty1;
-        readonly Func<Task<string>> faulty2;
 
         public HandleErrorsTests()
         {
             T.RegisterUnobserved(output);
-            faulty1 = T.CreateFaultyTask(output, 200, "Task1");
-            faulty2 = T.CreateFaultyTask(output, 100, "Task2");
         }
         
         Task<TInput> FaultyAsync<TInput>(TInput input) => T.CreateFaultyTask(output, 200, input)();

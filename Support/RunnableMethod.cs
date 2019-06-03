@@ -22,18 +22,19 @@ namespace AsyncLab.Support
             get { return $"{type.Name}.{method.Name}"; }
         }
 
-        public Task Invoke()
+        public Task Invoke(string[] args)
         {
+            var argsToPass = method.GetParameters().Length > 0
+                ? new object[] {args}
+                : null;
+            
             var obj = Activator.CreateInstance(type, new Output());
+            var result = method.Invoke(obj, argsToPass);
+            
             if (method.ReturnType == typeof(Task))
-            {
-                return (Task)method.Invoke(obj, null);
-            }
+                return (Task) result;
             else
-            {
-                method.Invoke(obj, null);
                 return Task.CompletedTask;
-            }
         }
 
         public static ICollection<RunnableMethod> FindAll()

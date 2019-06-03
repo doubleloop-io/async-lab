@@ -15,7 +15,7 @@ namespace AsyncLab.Support
             this.output = output;
         }
 
-        public async Task Run()
+        public async Task Run(string[] args)
         {
             foreach (var runnable in runnableMethods)
             {
@@ -23,7 +23,7 @@ namespace AsyncLab.Support
 
                 try
                 {
-                    await runnable.Invoke();
+                    await runnable.Invoke(args);
                 }
                 catch (Exception e)
                 {
